@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Citizen Assist helps citizens understand and use government digital portals through simple guides, document checklists and official links.">
+  <title>Citizen Assist | Government Digital Portal Guidance</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body id="bodyRoot">
+
+  <!-- ACCESSIBILITY / UTILITY BAR -->
+  <div class="utility-bar">
+    <div class="container utility-inner">
+      <div class="utility-left">
+        <button onclick="skipToMain()">Skip to main content</button>
+        <span class="divider"></span>
+        <button onclick="toggleAccessibility()" class="accessibility-trigger">
+          <i class="fa-solid fa-universal-access"></i> Accessibility <i class="fa-solid fa-chevron-down small-icon" id="accessChevron"></i>
+        </button>
+        <span class="divider"></span>
+        <div class="language-wrap">
+          <i class="fa-solid fa-globe"></i>
+          <select id="langSelect" onchange="changeLanguage(this.value)" aria-label="Language">
+            <option value="en">English</option>
+            <option value="hi">हिंदी</option>
+            <option value="mr">मराठी</option>
+          </select>
+        </div>
+        <span class="divider"></span>
+        <button onclick="window.print()"><i class="fa-solid fa-print"></i> Print</button>
+      </div>
+      <div class="utility-right">
+        <button onclick="showView('faq')"><i class="fa-regular fa-circle-question"></i> Help</button>
+        <button onclick="showView('about')">About Citizen Assist</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACCESSIBILITY PANEL -->
+  <div id="accessibilityPanel" class="accessibility-panel hidden" aria-label="Accessibility options">
+    <div class="access-heading">
+      <strong>Accessibility</strong>
+      <button onclick="resetAccessibility()" title="Reset accessibility"><i class="fa-solid fa-rotate-right"></i></button>
+    </div>
+
+    <div class="access-section">
+      <div class="access-title"><span>Font Size</span><button onclick="resetFontSize()"><i class="fa-solid fa-rotate-right"></i></button></div>
+      <div class="access-controls font-controls">
+        <button onclick="changeFontSize(-1)">A-</button>
+        <button onclick="resetFontSize()" class="font-dot dot-small" aria-label="Normal font"></button>
+        <button onclick="changeFontSize(-1)" class="font-dot dot-medium" aria-label="Medium font"></button>
+        <button onclick="resetFontSize()" class="font-dot dot-normal" aria-label="Normal font"></button>
+        <button onclick="changeFontSize(1)" class="font-dot dot-large" aria-label="Large font"></button>
+        <button onclick="changeFontSize(1)">A+</button>
+      </div>
+    </div>
+
+    <div class="access-section">
+      <div class="access-title"><span>Saturation</span><button onclick="setSaturation(1)"><i class="fa-solid fa-rotate-right"></i></button></div>
+      <div class="access-controls saturation-controls">
+        <button onclick="setSaturation(0)">−</button>
+        <button onclick="setSaturation(.55)" class="sat-dot sat-low"></button>
+        <button onclick="setSaturation(.8)" class="sat-dot sat-mid"></button>
+        <button onclick="setSaturation(1)" class="sat-dot sat-normal"></button>
+        <button onclick="setSaturation(1.35)" class="sat-dot sat-high"></button>
+        <button onclick="setSaturation(1.6)">+</button>
+      </div>
+    </div>
+
+    <button class="access-option" onclick="toggleReader()"><i class="fa-solid fa-volume-high"></i><span>Screen Reader</span><span class="access-state" id="readerState">Off</span></button>
+    <button class="access-option" onclick="toggleHighContrast()"><i class="fa-solid fa-circle-half-stroke"></i><span>High Contrast Theme</span></button>
+    <button class="access-option" onclick="toggleBasicView()"><i class="fa-solid fa-code"></i><span>Basic HTML View</span></button>
+    <button class="access-option" onclick="toggleInvert()"><i class="fa-solid fa-circle-half-stroke"></i><span>Invert Colors</span></button>
+  </div>
+
+  <!-- BRAND HEADER -->
+  <header class="brand-header">
+    <div class="container brand-inner">
+      <button class="brand" onclick="showView('home')" aria-label="Citizen Assist home">
+        <img src="assets/citizen-assist-logo.png" alt="Citizen Assist logo">
+        <span class="brand-text">
+          <strong>Citizen Assist</strong>
+          <small>Assisting Citizens in Using Government Digital Portals</small>
+        </span>
+      </button>
+
+      <div class="header-actions">
+        <button class="header-link" onclick="showView('services')">Services</button>
+        <button class="header-link" onclick="showView('faq')">Help</button>
+        <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN NAVIGATION -->
+  <nav class="main-nav" aria-label="Main navigation">
+    <div class="container nav-inner">
+      <div class="nav-links" id="navLinks">
+        <button onclick="showView('home')" class="nav-link active" data-view="home">Home</button>
+        <button onclick="showView('services')" class="nav-link" data-view="services">Services</button>
+        <button onclick="showView('faq')" class="nav-link" data-view="faq">FAQ</button>
+        <button onclick="showView('about')" class="nav-link" data-view="about">About Us</button>
+        <button onclick="showView('contact')" class="nav-link" data-view="contact">Contact</button>
+      </div>
+      <button class="nav-search-btn" onclick="focusHomeSearch()"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+    </div>
+  </nav>
+
+  <main id="mainContent">
+    <!-- HOME -->
+    <section id="view-home" class="page-view">
+      <section class="hero-section">
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <span class="eyebrow">Citizen-focused digital guidance</span>
+            <h1 data-i18n="hero_title">Simple guidance for government digital services</h1>
+            <p data-i18n="hero_subtitle">Find, understand and use government digital portals through simple steps, document checklists and official links.</p>
+            <div class="hero-search" id="heroSearch">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input id="homeSearchInput" type="search" placeholder="Search for a service, document or portal" onkeydown="if(event.key==='Enter') executeHomeSearch()" aria-label="Search services">
+              <button onclick="executeHomeSearch()" data-i18n="btn_search">Search</button>
+            </div>
+            <div class="hero-links">
+              <button onclick="showView('services')"><i class="fa-solid fa-list-check"></i> Browse all services</button>
+              <button onclick="showView('faq')"><i class="fa-regular fa-circle-question"></i> Need help?</button>
+            </div>
+          </div>
+          <div class="hero-side-card">
+            <div class="hero-side-icon"><i class="fa-solid fa-building-columns"></i></div>
+            <h2>One place to understand the process</h2>
+            <p>Citizen Assist explains what to prepare, what to do next and where to continue on the official portal.</p>
+            <div class="mini-check"><i class="fa-solid fa-circle-check"></i> Documents checklist</div>
+            <div class="mini-check"><i class="fa-solid fa-circle-check"></i> Step-by-step guidance</div>
+            <div class="mini-check"><i class="fa-solid fa-circle-check"></i> Official destination links</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="container content-section" id="quickServices">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">Quick access</span>
+            <h2>Popular Government Services</h2>
+          </div>
+          <button onclick="showView('services')" class="text-link">View all services <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+
+        <div class="service-grid">
+          <article class="service-card featured">
+            <div class="service-card-top"><span class="service-icon blue"><i class="fa-solid fa-address-card"></i></span><span class="difficulty easy">Easy</span></div>
+            <h3>PAN Card</h3>
+            <p>Understand new PAN application, required documents, status and next steps.</p>
+            <button onclick="openGuide('pan')" class="card-button">View Guide <i class="fa-solid fa-arrow-right"></i></button>
+          </article>
+          <article class="service-card">
+            <div class="service-card-top"><span class="service-icon green"><i class="fa-solid fa-fingerprint"></i></span><span class="difficulty easy">Easy</span></div>
+            <h3>Aadhaar Services</h3>
+            <p>Get guidance for common Aadhaar services, updates and e-Aadhaar tasks.</p>
+            <button onclick="openGuide('aadhaar')" class="card-button">View Guide <i class="fa-solid fa-arrow-right"></i></button>
+          </article>
+          <article class="service-card">
+            <div class="service-card-top"><span class="service-icon purple"><i class="fa-solid fa-passport"></i></span><span class="difficulty medium">Medium</span></div>
+            <h3>Passport Seva</h3>
+            <p>Prepare for fresh passport, reissue, payment and appointment steps.</p>
+            <button onclick="openGuide('passport')" class="card-button">View Guide <i class="fa-solid fa-arrow-right"></i></button>
+          </article>
+          <article class="service-card">
+            <div class="service-card-top"><span class="service-icon orange"><i class="fa-solid fa-car"></i></span><span class="difficulty medium">Medium</span></div>
+            <h3>Driving Licence</h3>
+            <p>Follow simple guidance for learner, permanent licence and related services.</p>
+            <button onclick="openGuide('dl')" class="card-button">View Guide <i class="fa-solid fa-arrow-right"></i></button>
+          </article>
+        </div>
+      </section>
+
+      <section class="container content-section">
+        <div class="role-section">
+          <div class="section-heading compact"><div><span class="section-kicker">Start with your need</span><h2>I am a...</h2></div></div>
+          <div class="role-grid">
+            <button onclick="filterByRole('student')"><i class="fa-solid fa-graduation-cap"></i><span>Student</span><small>Education & identity</small></button>
+            <button onclick="filterByRole('citizen')"><i class="fa-solid fa-user"></i><span>Citizen</span><small>Everyday services</small></button>
+            <button onclick="filterByRole('worker')"><i class="fa-solid fa-briefcase"></i><span>Worker</span><small>Work & documents</small></button>
+            <button onclick="filterByRole('all')"><i class="fa-solid fa-shapes"></i><span>Other</span><small>Explore all services</small></button>
+          </div>
+        </div>
+      </section>
+
+      <section class="container content-section">
+        <div class="trust-strip">
+          <div><strong>Guidance, not government</strong><span>Citizen Assist is an independent educational project.</span></div>
+          <div><i class="fa-solid fa-shield-halved"></i><span>We never ask for OTPs, passwords or PINs.</span></div>
+          <div><i class="fa-solid fa-arrow-up-right-from-square"></i><span>Final applications continue on official portals.</span></div>
+        </div>
+      </section>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="view-services" class="page-view hidden">
+      <div class="container page-shell">
+        <div class="page-title-row"><div><span class="section-kicker">Service directory</span><h1>Government Digital Services</h1><p>Choose a service to see documents, simple steps and the official destination.</p></div><button onclick="focusServiceSearch()" class="outline-button"><i class="fa-solid fa-magnifying-glass"></i> Search</button></div>
+        <div class="filter-panel">
+          <div class="search-field"><i class="fa-solid fa-magnifying-glass"></i><input id="serviceSearchInput" oninput="filterServicesList()" placeholder="Search PAN, Aadhaar, Passport, Driving Licence..."></div>
+          <select id="filterCategory" onchange="filterServicesList()"><option value="all">All categories</option><option value="identity">Identity & Tax</option><option value="transport">Transport & Travel</option></select>
+          <select id="filterDifficulty" onchange="filterServicesList()"><option value="all">All levels</option><option value="easy">Easy</option><option value="medium">Medium</option></select>
+        </div>
+        <div id="servicesListContainer" class="service-list">
+          <article class="service-entry" data-keywords="pan card form 49a tax student citizen worker identity" data-category="identity" data-difficulty="easy">
+            <div class="service-row-icon blue"><i class="fa-solid fa-address-card"></i></div><div class="service-row-content"><div class="service-title"><h2>PAN Card</h2><span class="difficulty easy">Easy</span></div><p>New PAN, updates, document preparation and application guidance.</p><div class="service-meta"><span><i class="fa-solid fa-file"></i> Documents</span><span><i class="fa-solid fa-list-check"></i> Steps</span><span><i class="fa-solid fa-link"></i> Official link</span></div></div><button onclick="openGuide('pan')" class="primary-button-small">View Guide</button>
+          </article>
+          <article class="service-entry" data-keywords="aadhaar uidai address ekyc download fingerprint student citizen worker identity" data-category="identity" data-difficulty="easy">
+            <div class="service-row-icon green"><i class="fa-solid fa-fingerprint"></i></div><div class="service-row-content"><div class="service-title"><h2>Aadhaar Services</h2><span class="difficulty easy">Easy</span></div><p>Common Aadhaar guidance including e-Aadhaar and updates.</p><div class="service-meta"><span><i class="fa-solid fa-file"></i> Documents</span><span><i class="fa-solid fa-list-check"></i> Steps</span><span><i class="fa-solid fa-link"></i> Official link</span></div></div><button onclick="openGuide('aadhaar')" class="primary-button-small">View Guide</button>
+          </article>
+          <article class="service-entry" data-keywords="passport renewal fresh appointment seva student citizen worker travel" data-category="transport" data-difficulty="medium">
+            <div class="service-row-icon purple"><i class="fa-solid fa-passport"></i></div><div class="service-row-content"><div class="service-title"><h2>Passport Application</h2><span class="difficulty medium">Medium</span></div><p>Fresh passport, reissue, payment and appointment preparation.</p><div class="service-meta"><span><i class="fa-solid fa-file"></i> Documents</span><span><i class="fa-solid fa-list-check"></i> Steps</span><span><i class="fa-solid fa-link"></i> Official link</span></div></div><button onclick="openGuide('passport')" class="primary-button-small">View Guide</button>
+          </article>
+          <article class="service-entry" data-keywords="driving licence license learner sarathi parivahan rto worker citizen transport" data-category="transport" data-difficulty="medium">
+            <div class="service-row-icon orange"><i class="fa-solid fa-car"></i></div><div class="service-row-content"><div class="service-title"><h2>Driving Licence</h2><span class="difficulty medium">Medium</span></div><p>Learner licence, permanent licence, renewal and slot guidance.</p><div class="service-meta"><span><i class="fa-solid fa-file"></i> Documents</span><span><i class="fa-solid fa-list-check"></i> Steps</span><span><i class="fa-solid fa-link"></i> Official link</span></div></div><button onclick="openGuide('dl')" class="primary-button-small">View Guide</button>
+          </article>
+        </div>
+        <div id="noServices" class="empty-state hidden"><i class="fa-solid fa-magnifying-glass"></i><h3>No service found</h3><p>Try a different keyword or reset the filters.</p></div>
+      </div>
+    </section>
+
+    <!-- GUIDE -->
+    <section id="view-guide" class="page-view hidden">
+      <div class="container page-shell">
+        <button onclick="showView('services')" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Services</button>
+        <div class="guide-header"><div><span class="official-label">Citizen Assist Guide</span><h1 id="guideTitle">PAN Card</h1><p id="guideDescription"></p></div><div class="progress-box"><span>Checklist progress</span><strong id="guideProgressPercent">0%</strong></div></div>
+        <div class="action-grid">
+          <a id="applyNowBtn" href="#" target="_blank" rel="noopener" class="action-card primary"><i class="fa-solid fa-arrow-up-right-from-square"></i><span><strong>Apply Online</strong><small>Open official portal</small></span></a>
+          <button onclick="scrollToGuideSection('documentsSection')" class="action-card"><i class="fa-solid fa-file-circle-check"></i><span><strong>Documents Required</strong><small>What to keep ready</small></span></button>
+          <button onclick="scrollToGuideSection('stepsSection')" class="action-card"><i class="fa-solid fa-list-check"></i><span><strong>Step-by-Step Guide</strong><small>Follow each step</small></span></button>
+          <a id="trackPortalBtn" href="#" target="_blank" rel="noopener" class="action-card"><i class="fa-solid fa-location-dot"></i><span><strong>Track Application</strong><small>Check application status</small></span></a>
+        </div>
+        <div class="notice-box"><i class="fa-solid fa-shield-halved"></i><div><strong>Safety first:</strong> Citizen Assist only explains the process. Never share OTPs, passwords, PINs or bank details with anyone. Complete payment and submission only on the official portal.</div></div>
+        <div class="guide-layout">
+          <div class="guide-main">
+            <section id="documentsSection" class="content-card guide-section"><div class="section-title-row"><div><span class="section-number">1</span><h2>Documents & Information Required</h2></div></div><p class="helper-text">Keep these ready before starting. Requirements can change, so always confirm the latest list on the official portal.</p><ul id="documentsContainer" class="document-list"></ul></section>
+            <section id="stepsSection" class="content-card guide-section"><div class="section-title-row"><div><span class="section-number">2</span><h2>Step-by-Step Application Guide</h2></div></div><div id="checklistContainer" class="checklist"></div></section>
+          </div>
+          <aside class="guide-side"><section class="content-card"><h2>Before You Apply</h2><p id="guideEligibility"></p></section><section class="official-portal-card"><span class="official-label">Verified destination</span><h2>Official Government Portal</h2><p>Use the official website for login, document upload, payment and final submission.</p><a id="officialPortalBtn" href="#" target="_blank" rel="noopener" class="primary-button">Continue to Official Portal <i class="fa-solid fa-arrow-up-right-from-square"></i></a></section></aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="view-faq" class="page-view hidden">
+      <div class="container page-shell narrow"><div class="page-title-row"><div><span class="section-kicker">Help centre</span><h1>Frequently Asked Questions</h1><p>Quick answers about using Citizen Assist and government digital portals.</p></div></div><div class="search-field faq-search"><i class="fa-solid fa-magnifying-glass"></i><input id="faqSearchInput" oninput="filterFaq()" placeholder="Search FAQs..."></div><div id="faqAccordionContainer" class="faq-list">
+        <div class="faq-item"><button onclick="toggleFaq(this)"><span>Is Citizen Assist an official government portal?</span><i class="fa-solid fa-chevron-down"></i></button><div class="faq-answer hidden">No. Citizen Assist is an independent guidance platform for this project. Final applications should be completed on the official government website.</div></div>
+        <div class="faq-item"><button onclick="toggleFaq(this)"><span>Why does Citizen Assist send me to another website?</span><i class="fa-solid fa-chevron-down"></i></button><div class="faq-answer hidden">Citizen Assist explains the process, while the actual application, payment, login and submission stay on the relevant official portal.</div></div>
+        <div class="faq-item"><button onclick="toggleFaq(this)"><span>What documents should I keep ready?</span><i class="fa-solid fa-chevron-down"></i></button><div class="faq-answer hidden">Open the service guide to see a preparation checklist. Always verify the latest requirements on the official destination before submitting.</div></div>
+        <div class="faq-item"><button onclick="toggleFaq(this)"><span>Does Citizen Assist store my OTP or password?</span><i class="fa-solid fa-chevron-down"></i></button><div class="faq-answer hidden">No. The project should never ask you to enter OTPs, passwords, PINs or other sensitive account credentials.</div></div>
+        <div class="faq-item"><button onclick="toggleFaq(this)"><span>Can I change the language?</span><i class="fa-solid fa-chevron-down"></i></button><div class="faq-answer hidden">Yes. Use the language selector in the top utility bar to switch between English, Hindi and Marathi interface text.</div></div>
+      </div></div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="view-about" class="page-view hidden">
+      <div class="container page-shell narrow"><div class="content-card about-card"><span class="section-kicker">About the project</span><h1>About Citizen Assist</h1><p>Citizen Assist is a student community-engagement project designed to help citizens understand government digital portals without making the process feel complicated.</p><div class="mission-box"><i class="fa-solid fa-bullseye"></i><div><strong>Our purpose</strong><span>Make digital government services easier to understand through clear instructions, preparation checklists and safe links to official portals.</span></div></div><div class="about-grid"><div><i class="fa-solid fa-language"></i><h2>Simple language</h2><p>Guidance is written for everyday users and supports English, Hindi and Marathi interface text.</p></div><div><i class="fa-solid fa-shield-halved"></i><h2>Safety first</h2><p>We remind users not to share OTPs, passwords, PINs or sensitive credentials.</p></div><div><i class="fa-solid fa-arrow-up-right-from-square"></i><h2>Official destination</h2><p>Final application actions continue on the relevant government portal.</p></div></div></div></div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="view-contact" class="page-view hidden">
+      <div class="container page-shell narrow"><div class="content-card"><span class="section-kicker">Feedback</span><h1>Contact & Feedback</h1><p class="intro">Tell us what is confusing or what would make the guides easier to use.</p><form onsubmit="handleContactSubmit(event)" class="contact-form"><label>Name<input type="text" required class="form-input" placeholder="Enter your name"></label><label>Email<input type="email" required class="form-input" placeholder="name@example.com"></label><label>Message<textarea rows="5" required class="form-input" placeholder="Write your feedback..."></textarea></label><button type="submit" class="primary-button-small"><i class="fa-solid fa-paper-plane"></i> Send Feedback</button></form></div></div>
+    </section>
+  </main>
+
+  <!-- CHATBOT -->
+  <div class="chat-widget">
+    <div id="chatBox" class="chat-box hidden">
+      <div class="chat-header"><div><strong><i class="fa-solid fa-robot"></i> Citizen Assist AI</strong><small>Portal guidance assistant</small></div><button onclick="toggleChat()"><i class="fa-solid fa-xmark"></i></button></div>
+      <div class="quick-chat"><button onclick="sendQuickChat('Hello')">Hello</button><button onclick="sendQuickChat('PAN documents')">PAN documents</button><button onclick="sendQuickChat('Aadhaar')">Aadhaar</button><button onclick="sendQuickChat('Passport')">Passport</button></div>
+      <div id="chatMessages" class="chat-messages"><div class="bot-bubble">👋 Hello! I can guide you about PAN, Aadhaar, Passport and Driving Licence services. What do you need help with?</div></div>
+      <div class="chat-input-row"><input id="chatInput" placeholder="Ask about documents or steps..." onkeydown="if(event.key==='Enter') sendChatMessage()"><button onclick="sendChatMessage()" aria-label="Send"><i class="fa-solid fa-paper-plane"></i></button></div>
+    </div>
+    <button onclick="toggleChat()" class="chat-launcher"><span class="chat-avatar"><i class="fa-solid fa-robot"></i></span><span>Ask Citizen Assist</span></button>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand"><img src="assets/citizen-assist-logo.png" alt="Citizen Assist logo"><h2>Citizen Assist</h2><p>Assisting Citizens in Using Government Digital Portals.</p><div class="socials"><span><i class="fa-solid fa-users"></i></span><span><i class="fa-solid fa-envelope"></i></span><span><i class="fa-solid fa-link"></i></span></div></div>
+      <div><h3>Services</h3><button onclick="openGuide('pan')">PAN Card</button><button onclick="openGuide('aadhaar')">Aadhaar Services</button><button onclick="openGuide('passport')">Passport Seva</button><button onclick="openGuide('dl')">Driving Licence</button></div>
+      <div><h3>Quick Links</h3><button onclick="showView('services')">All Services</button><button onclick="showView('faq')">FAQ & Help</button><button onclick="showView('about')">About the Project</button><button onclick="showView('contact')">Feedback</button></div>
+      <div><h3>Important</h3><p class="footer-note">Citizen Assist is an independent educational project. We do not represent any government department.</p><p class="footer-note"><i class="fa-solid fa-shield-halved"></i> Never share OTPs, passwords or PINs.</p></div>
+    </div>
+    <div class="footer-bottom"><div class="container footer-bottom-inner"><span>© 2026 Citizen Assist. Educational project.</span><span>Guidance only • Verify current requirements on official portals</span></div></div>
+  </footer>
+
+  <script src="js/checklist.js"></script>
+  <script src="js/chatbot.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
